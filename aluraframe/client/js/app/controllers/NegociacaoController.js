@@ -29,5 +29,17 @@ class NegociacaoController {
         );
 
         console.log(negociacao);
+
+        this.limpaFormulario();
+    }
+
+    limpaFormulario() {
+        console.log('limpaFormulario');
+
+        this._inputData.value = '';
+        this._inputQuantidade.value = '';
+        this._inputValor = '';
+
+        this._inputData.focus();
     }
 }
