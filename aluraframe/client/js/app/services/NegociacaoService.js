@@ -1,27 +1,56 @@
 class NegociacaoService {
-    obterNegociacoesDaSemana(cb) {
+    constructor() {
+        this.http = new HttpService();
+    }
 
-        let xhr = new XMLHttpRequest();
+    obterNegociacoesDaSemana() {
 
-        xhr.open('GET', 'negociacoes/semana');
+        return new Promise((resolve, reject) => {
 
-        xhr.onreadystatechange = () => {
+            this.http
+                .get('negociacoes/semana')
+                .then(negociacoes => {
+                    console.log('negociacoes da semana', negociacoes);
+                    resolve(negociacoes.map(objeto => new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor)));
+                })
+                .catch(erro => {
+                    console.log(erro);
+                    reject('Não foi possível obter as negociações da semana');
+                });
+        });
+    }
 
-            if (xhr.readyState == 4) {
+    obterNegociacoesDaSemanaAnterior() {
 
-                if (xhr.status == 200) {
+        return new Promise((resolve, reject) => {
 
-                    cb(null, JSON.parse(xhr.responseText)
-                        .map(objeto => new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor))
-                    );
+            this.http
+                .get('negociacoes/anterior')
+                .then(negociacoes => {
+                    console.log('negociacoes da semana anterior', negociacoes);
+                    resolve(negociacoes.map(objeto => new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor)));
+                })
+                .catch(erro => {
+                    console.log(erro);
+                    reject('Não foi possível obter as negociações da semana anterior');
+                });
+        });
+    }
 
-                } else {
-                    console.log(xhr.responseText);
-                    cb('Não foi possível obter as negociações da semana', null);
-                }
-            }
-        };
+    obterNegociacoesDaSemanaRetrasada() {
 
-        xhr.send();
+        return new Promise((resolve, reject) => {
+
+            this.http
+                .get('negociacoes/retrasada')
+                .then(negociacoes => {
+                    console.log('negociacoes da semana retrasada', negociacoes);
+                    resolve(negociacoes.map(objeto => new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor)));
+                })
+                .catch(erro => {
+                    console.log(erro);
+                    reject('Não foi possível obter as negociações da semana retrasada');
+                });
+        });
     }
 }
