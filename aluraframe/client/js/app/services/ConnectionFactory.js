@@ -54,7 +54,7 @@ var ConnectionFactory = (function() {
                     connection.deleteObjectStore(store);
                 }
 
-                connection.createObjectStore(store, { autoincremente: true });
+                connection.createObjectStore(store, { autoIncrement: true });
             });
         }
 
